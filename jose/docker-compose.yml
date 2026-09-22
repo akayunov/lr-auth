@@ -1,0 +1,9 @@
+services:
+  jose-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    image: lr-auth-jose:1.0.0
+    command: tail -f /dev/null
+    volumes:
+      - ./tests:/app

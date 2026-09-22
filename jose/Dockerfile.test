@@ -1,0 +1,17 @@
+FROM python:3.13
+
+# Отключение интерактивных диалогов APT
+ENV DEBIAN_FRONTEND=noninteractive
+
+# install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gnupg \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+ENV PATH="/venv/bin:$PATH"
+COPY pyproject.toml .
+RUN python3 -m venv /venv && pip3 install poetry==2.4.1 &&  poetry config virtualenvs.create false && poetry install --only dev
