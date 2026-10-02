@@ -1,0 +1,15 @@
+services:
+  # продакшеновая инсталяция требует генерации сертификатов и установки полноценной реляционной базы
+  keycloak-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: lr-auth-keycloak-dev:1.0.0
+
+    command: ["bin/kc.sh", "start-dev", "--http-host=0.0.0.0"]
+    ports:
+      - "8080:8080"
+    # admin user
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
