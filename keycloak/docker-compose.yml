@@ -1,0 +1,25 @@
+services:
+  keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lr-auth-keycloak:1.0.0
+    command: ["bin/kc.sh", "start", "--optimized"]
+    ports:
+      - "8443:8443"
+      - "9000:9000"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+
+  postgress:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: keycloak      # Имя базы данных (то самое, что в пути jdbc:postgresql://postgress/keycloak)
+      POSTGRES_USER: keycloak    # Имя пользователя БД
+      POSTGRES_PASSWORD: keycloak-password # Пароль (лучше вынести в .env файл)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

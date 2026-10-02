@@ -1,0 +1,18 @@
+FROM debian:13
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Устанавливаем зависимости
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gnupg \
+    curl \
+    ca-certificates \
+    openjdk-25-jre \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Создаем рабочую директорию
+WORKDIR /kc
+
+
+RUN wget -qO- https://github.com/keycloak/keycloak/releases/download/26.7.4/keycloak-26.7.4.tar.gz | tar -xz --strip-components=1
